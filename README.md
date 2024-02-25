@@ -10,16 +10,20 @@ Uppdateras var 10e sekund!
 
 Leta upp `idp` för personerna du följer. Det gör du genom att söka upp personen på följande sida och klicka in dig på personens resultatsida.
 
+🔎 [Sök efter personer på vasaloppet här](https://results.vasaloppet.se/2024/)
+
 Plocka ut det som står efter `idp=`
-> https://results.vasaloppet.se/2024/?content=detail&...&`idp=XOXOGOSSIP`&...
+https://results.vasaloppet.se/2024/?content=detail&...&`idp=XOXOGOSSIP`&...
 
 I detta fallet är `XOXOGOSSIP` vårt `idp`
 
 Upprepa för varje person du vill följa och spara på nåt bra ställe
 
-## Köra 
+## Köra
 
 `bun src/index.ts idp1,idp2,idp3`
+
+Har använt [Bun](https://bun.sh/) under utvecklingen som har inbyggt stöd för Typescript, vill du använda `tsc` eller liknande får du knåpa ihop en tsconfig själv ✨.
 
 ## Frivilligt
 
