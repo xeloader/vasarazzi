@@ -20,3 +20,20 @@ Upprepa för varje person du vill följa och spara på nåt bra ställe
 ## Köra 
 
 `bun src/index.ts idp1,idp2,idp3`
+
+## Frivilligt
+
+### Support för pusnotiser
+
+Vasarazzi använder sig utav [Pushover](https://pushover.net/)
+- Skaffa ett konto
+  - Skapa en `Application/API Token`
+  - Skriv ner
+- Installera appen på din mobil
+  - Leta upp `User Key`
+  - Skriv ner
+
+Kopiera `.env.sample` och döp om till `.env`
+Fyll i med uppgifterna du skrev ner innan.
+
+Pang ping pong. 🏓

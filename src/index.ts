@@ -1,5 +1,8 @@
+import 'dotenv/config'
+
 import { Split, getPerson, getSplits } from './libs/vasaloppet'
 import { VasaEvent } from './constants'
+import { sendNotification } from './libs/pushover'
 
 interface Person {
   firstname: string,
@@ -75,6 +78,12 @@ async function loop (
 
 const start = async () => {
   const pids = parseArgs(process.argv[2])
+
+  const pushoverEnabled = !!(process.env.PUSHOVER_USER_TOKEN && process.env.PUSHOVER_APP_TOKEN)
+  if (pushoverEnabled) {
+    console.log('⚙️  Pushover is enabled')
+  }
+
   let updates = 0
   loop(pids, {
     onUpdate: (pid, lookup) => {
@@ -86,10 +95,19 @@ const start = async () => {
       const passedSplits = newSplits.filter((split) => split.prediction === false)
       const splitsLeft = newSplits.length - passedSplits.length
       console.log('')
+      let message = ''
       if (splitsLeft > 0) {
-        console.log(`⭐️ ${p.details.firstname} ${p.details.lastname} passed ${passedSplits.at(-1)?.name} with a predicted time of ${newSplits.at(-1)?.lapTime} (${splitsLeft} splits left)`)
+        message = `⭐️ ${p.details.firstname} ${p.details.lastname} passed ${passedSplits.at(-1)?.name} with a predicted time of ${newSplits.at(-1)?.lapTime} (${splitsLeft} splits left)`
       } else {
-        console.log(`✅ ${p.details.firstname} ${p.details.lastname} finished at ${passedSplits.at(-1)?.lapTime}!`)
+        message = `✅ ${p.details.firstname} ${p.details.lastname} finished at ${passedSplits.at(-1)?.lapTime}!`
+      }
+      console.log(message)
+
+      if (pushoverEnabled) {
+        sendNotification(message, {
+          appToken: process.env.PUSHOVER_APP_TOKEN,
+          userToken: process.env.PUSHOVER_USER_TOKEN
+        })
       }
     },
   })
