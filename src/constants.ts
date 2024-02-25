@@ -1,5 +1,8 @@
+/**
+ * OpenTrack = Öppet Spår
+ */
 export enum VasaEvent {
-  OpenTrack = 'SS_HCH8NDMR2400' // Öppet Spår
+  OpenTrackSunday24 = 'SS_HCH8NDMR2400'
 }
 
 export enum Language {

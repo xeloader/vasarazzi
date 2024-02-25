@@ -22,13 +22,13 @@ function parseArgs(args: string): string[] {
     .map((arg) => arg.trim())
 }
 
-const setup = async (pids: string[]): Promise<{
+const setup = async (pids: string[], event: VasaEvent): Promise<{
   pids: string[],
   lookup: PersonLookup
 }> => {
   let lookup = {}
   for (let pid of pids) {
-    const details = await getPerson(pid, VasaEvent.OpenTrack)
+    const details = await getPerson(pid, event)
     lookup[pid] = {
       updatedAt: undefined,
       details,
@@ -55,14 +55,15 @@ interface LoopOpts {
 
 async function loop (
   pids: string[], 
+  event: VasaEvent,
   opts: LoopOpts
 ): Promise<NodeJS.Timeout> {
-  let { lookup } = await setup(pids)
+  let { lookup } = await setup(pids, event)
   const splitHandler = async () => {
     for (let pid of pids) {
       const p = lookup[pid]
       opts?.onUpdate?.(pid, lookup)
-      const splits = await getSplits(pid, VasaEvent.OpenTrack)
+      const splits = await getSplits(pid, event)
       const passedSplits = splits.filter((split) => split.prediction === false)
       const prevPassedSplits = p.splits.filter((split) => split.prediction === false)
       if (passedSplits.length > prevPassedSplits.length) {
@@ -86,8 +87,8 @@ const start = async () => {
 
   let updates = 0
   let notifications = 0
-  loop(pids, {
-    onUpdate: (pid, lookup) => {
+  loop(pids, VasaEvent.OpenTrackSunday24, {
+    onUpdate: () => {
       updates += 1
       if (updates > pids.length) process.stdout.write(".");
     },
