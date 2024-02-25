@@ -93,13 +93,13 @@ const start = async () => {
     onSplit: (pid, lookup, newSplits) => {
       const p = lookup[pid]
       const passedSplits = newSplits.filter((split) => split.prediction === false)
-      const splitsLeft = newSplits.length - passedSplits.length
+      const splitsLeft = newSplits.length - passedSplits.length - 1 // -1 to remove finish station
       console.log('')
       let message = ''
       if (splitsLeft > 0) {
-        message = `⭐️ ${p.details.firstname} ${p.details.lastname} passed ${passedSplits.at(-1)?.name} with a predicted time of ${newSplits.at(-1)?.lapTime} (${splitsLeft} splits left)`
+        message = `⭐️ ${p.details.firstname} ${p.details.lastname} passed ${passedSplits.at(-1)?.name} at ${passedSplits.at(-1)?.timestamp} with a predicted time of ${newSplits.at(-1)?.lapTime} (${splitsLeft} splits left)`
       } else {
-        message = `✅ ${p.details.firstname} ${p.details.lastname} finished at ${passedSplits.at(-1)?.lapTime}!`
+        message = `✅ ${p.details.firstname} ${p.details.lastname} finished at ${passedSplits.at(-1)?.timestamp} with a time of ${passedSplits.at(-1)?.lapTime}!`
       }
       console.log(message)
 
