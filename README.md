@@ -10,7 +10,7 @@ Uppdateras var 10e sekund!
 
 Leta upp `idp` för personerna du följer. Det gör du genom att söka upp personen på följande sida och klicka in dig på personens resultatsida.
 
-Plocka ut det som står efter `idp=``
+Plocka ut det som står efter `idp=`
 > https://results.vasaloppet.se/2024/?content=detail&...&`idp=XOXOGOSSIP`&...
 
 I detta fallet är `XOXOGOSSIP` vårt `idp`
